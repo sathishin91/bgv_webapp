@@ -6,6 +6,11 @@
 <?= $this->endSection('styles'); ?>
 
 <?= $this->section('content'); ?>
+<?php
+
+// print_r($user_id);
+// die();
+?>
 
 
 <!-- PAGE-HEADER -->
@@ -31,7 +36,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom">
-                    <a href="http://localhost/excel/index.php" class="btn btn-primary">Goto</a>
+                    <a href="http://localhost/excel/index.php?id=<?= $user_id ?>" class="btn btn-primary">Goto</a>
                     <h3 class="card-title m-2">Click on the button to go to import/export page</h3>
                 </div>
                 <?php

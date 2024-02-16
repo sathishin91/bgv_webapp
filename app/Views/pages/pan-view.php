@@ -109,36 +109,33 @@
                             <option value="">1 day</option>
                             <option value="">1 week</option>
                             <option value="">1 month</option>
-
                         </select>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <label for="" class="text-gray text-semibold">Case status</label>
                         <select id="filterStatus" name="filterStatus" class="form-select" style="font-size: 14px;">
-                            <option value="2" class="text-warning">inProgress</option>
-                            <option value="0" class="text-danger">rejected</option>
-                            <option value="1" class="text-success">approved</option>
+                            <option value="">--select--</option>
+                            <option value="1" class="text-success">pan found</option>
+                            <option value="2" class="text-warning">insufficient information</option>
+                            <option value="3" class="text-danger">pan not found</option>
+                            <option value="4" class="text-danger">name mismatched</option>
+                            <option value="5" class="text-danger">fake pan</option>
                         </select>
                     </div>
-
                     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 border-white border-1 rounded-2" style="height: 100px;background-color:#fff9e6;">
                         <div class="d-flex flex-column mb-3 p-4 ">
                             <h1 class="text-warning"><?= $count ?></h1>
                             <p class="text-medium">Todo's for PAN</p>
                         </div>
                     </div>
-                    <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <!-- <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <select id="filter" name="filter" class="form-select text-primary text-medium" style="font-size: 14px;">
                             <option value="">View more filters</option>
 
                         </select>
-                    </div>
-
+                    </div> -->
                 </div>
-
-
             </div>
-
         </div>
     </div>
 </div>
@@ -205,15 +202,29 @@
                                             <td><?= $record['first_name'] . ' ' . $record['last_name'] ?></td>
                                             <td><?= $record['pan'] ?></td>
                                             <?php
-                                            if ($record['is_pan'] == 0) {
+                                            if ($record['is_pan'] == 1) {
                                             ?>
-                                                <td><span class="text-danger  text-medium">rejected</span></td>
-                                                <!-- <td>rejected</td> -->
+                                                <td><span class="text-success  text-medium">pan found</span></td>
 
-                                            <?php } else { ?>
-                                                <td><span class="text-success text-medium">approved</span></td>
-                                                <!-- <td>approved</td> -->
+                                            <?php } elseif ($record['is_pan'] == 2) { ?>
+
+                                                <td><span class="text-warning text-medium">insufficient info</span></td>
+
+                                            <?php } elseif ($record['is_pan'] == 3) { ?>
+
+                                                <td><span class="text-danger text-medium">pan not found</span></td>
+
+
+                                            <?php } elseif ($record['is_pan'] == 4) { ?>
+
+                                                <td><span class="text-danger text-medium">name mismatched</span></td>
+
+                                            <?php } elseif ($record['is_pan'] == 5) { ?>
+
+                                                <td><span class="text-danger text-medium">fake pan</span></td>
+
                                             <?php } ?>
+
                                             <td>-16 days</td>
                                             <td><?= $record['created_at'] ?></td>
                                             <td><span>
@@ -277,13 +288,19 @@
             success: function(response) {
                 // Update the table with the filtered data
                 // Modify this based on your table structure
-                var tableHtml = '<thead><tr><th><b>ID</b></th><th><b>Employee name</b></th><th><b>PAN Number</b></th><th><b>PAN Verification</b></th></tr></thead>';
+                var tableHtml = '<thead><tr><th>Id</th><th>Candidate Name</th><th>PAN Number</th><th>Case status</th><th>TAT left</th><th>Initiated on</th><th></th></tr></thead>';
                 $.each(response.data, function(index, item) {
                     var fullName = item.first_name + ' ' + item.last_name;
-                    if (item.is_pan == 0) {
-                        item.is_pan = '<span class="text-danger text-medium">Not verified</span>'
-                    } else {
-                        item.is_pan = '<span class="text-success text-medium">Verified</span>'
+                    if (item.is_pan == 1) {
+                        item.is_pan = '<span class="text-success text-medium">pan found</span>'
+                    } else if (item.is_pan == 2) {
+                        item.is_pan = '<span class="text-warning text-medium">insufficient info</span>'
+                    } else if (item.is_pan == 3) {
+                        item.is_pan = '<span class="text-danger text-medium">pan not found</span>'
+                    } else if (item.is_pan == 4) {
+                        item.is_pan = '<span class="text-danger text-medium">name mismatched</span>'
+                    } else if (item.is_pan == 5) {
+                        item.is_pan = '<span class="text-danger text-medium">fake pan</span>'
                     }
                     tableHtml += '<tbody><tr><td>' + item.id + '</td><td>' + fullName + '</td><td>' + item.pan + '</td><td>' + item.is_pan + '</td><td>-16 days</td><td>' + item.created_at + '</td><td><span> <a href="javascript:void(0)" onclick="todoPanModal(' + item.id + ')"><i class="fa fa-arrow-right"></i></a></span></td></tr></tbody>';
                 });
@@ -308,13 +325,19 @@
             success: function(response) {
                 // Update the table with the filtered data
                 // Modify this based on your table structure
-                var tableHtml = '<thead><tr><th><b>ID</b></th><th><b>Employee name</b></th><th><b>PAN Number</b></th><th><b>PAN Verification</b></th></tr></thead>';
+                var tableHtml = '<thead><tr><th>Id</th><th>Candidate Name</th><th>PAN Number</th><th>Case status</th><th>TAT left</th><th>Initiated on</th><th></th></tr></thead>';
                 $.each(response.data, function(index, item) {
                     var fullName = item.first_name + ' ' + item.last_name;
-                    if (item.is_pan == 0) {
-                        item.is_pan = '<span class="text-danger text-medium">Not verified</span>'
-                    } else {
-                        item.is_pan = '<span class="text-success text-medium">Verified</span>'
+                    if (item.is_pan == 1) {
+                        item.is_pan = '<span class="text-success text-medium">pan found</span>'
+                    } else if (item.is_pan == 2) {
+                        item.is_pan = '<span class="text-warning text-medium">insufficient info</span>'
+                    } else if (item.is_pan == 3) {
+                        item.is_pan = '<span class="text-danger text-medium">pan not found</span>'
+                    } else if (item.is_pan == 4) {
+                        item.is_pan = '<span class="text-danger text-medium">name mismatched</span>'
+                    } else if (item.is_pan == 5) {
+                        item.is_pan = '<span class="text-danger text-medium">fake pan</span>'
                     }
                     tableHtml += '<tbody><tr><td>' + item.id + '</td><td>' + fullName + '</td><td>' + item.pan + '</td><td>' + item.is_pan + '</td><td>-16 days</td><td>' + item.created_at + '</td><td><span> <a href="javascript:void(0)" onclick="todoPanModal(' + item.id + ')"><i class="fa fa-arrow-right"></i></a></span></td></tr></tbody>';
                 });
@@ -352,10 +375,16 @@
                 $.each(response.data, function(index, item) {
                     // resultsContainer.append('<p>' + result.column_name + '</p>');
                     var fullName = item.first_name + ' ' + item.last_name;
-                    if (item.is_pan == 0) {
-                        item.is_pan = '<span class="text-danger text-medium">rejected</span>'
-                    } else {
-                        item.is_pan = '<span class="text-success text-medium">approved</span>'
+                    if (item.is_pan == 1) {
+                        item.is_pan = '<span class="text-success text-medium">pan found</span>'
+                    } else if (item.is_pan == 2) {
+                        item.is_pan = '<span class="text-warning text-medium">insufficient info</span>'
+                    } else if (item.is_pan == 3) {
+                        item.is_pan = '<span class="text-danger text-medium">pan not found</span>'
+                    } else if (item.is_pan == 4) {
+                        item.is_pan = '<span class="text-danger text-medium">name mismatched</span>'
+                    } else if (item.is_pan == 5) {
+                        item.is_pan = '<span class="text-danger text-medium">fake pan</span>'
                     }
                     tableHtml += '<tbody><tr><td>' + item.id + '</td><td>' + fullName + '</td><td>' + item.pan + '</td><td>' + item.is_pan + '</td><td>-16 days</td><td>' + item.created_at + '</td><td><span> <a href="javascript:void(0)" onclick="todoPanModal(' + item.id + ')"><i class="fa fa-arrow-right"></i></a></span></td></tr></tbody>';
                 });

@@ -20,48 +20,53 @@ class EmployeeModel extends Model
         return $result === 0; // Returns true if email is unique, false if it already exists
     }
 
+    // public function findByEmail($email)
+    // {
+    //     return $this->where('email', $email)->find();
+    // }
+
 
     public function panData()
     {
-        return $this->where('is_pan', 0)->find();
+        return $this->whereIn('is_pan', [3, 4, 5])->find();
     }
 
     public function aadharData()
     {
-        return $this->where('is_aadhar', 0)->find();
+        return $this->whereIn('is_aadhar', [3, 4, 5])->find();
     }
 
     public function voterIdData()
     {
-        return $this->where('is_voter_id', 0)->find();
+        return $this->whereIn('is_voter_id', [3, 4, 5])->find();
     }
 
     public function licenseData()
     {
-        return $this->where('is_license', 0)->find();
+        return $this->whereIn('is_license', [3, 4, 5])->find();
     }
 
-    public function countPanRecords($wherePan)
+    public function countPanRecords()
     {
-        return $this->where($wherePan)
+        return $this->whereIn('is_pan', [3, 4, 5])
             ->countAllResults(); // This counts all records in the table
     }
 
-    public function countAadharRecords($whereAadhar)
+    public function countAadharRecords()
     {
-        return $this->where($whereAadhar)
+        return $this->whereIn('is_aadhar', [3, 4, 5])
             ->countAllResults(); // This counts all records in the table
     }
 
-    public function countVoterIdRecords($whereVoterId)
+    public function countVoterIdRecords()
     {
-        return $this->where($whereVoterId)
+        return $this->whereIn('is_voter_id', [3, 4, 5])
             ->countAllResults(); // This counts all records in the table
     }
 
-    public function countLicenseRecords($whereLicense)
+    public function countLicenseRecords()
     {
-        return $this->where($whereLicense)
+        return $this->whereIn('is_license', [3, 4, 5])
             ->countAllResults(); // This counts all records in the table
     }
 
@@ -126,8 +131,6 @@ class EmployeeModel extends Model
 
     public function filterPanStatus($filter)
     {
-        // print_r($filter);
-        // die();
         return $this->where('is_pan', $filter)->find();
     }
 

@@ -35,62 +35,132 @@
 
 
 <div class="row">
-    <!-- CARD 1 -->
-    <div class="col-md-12 col-xl-3">
+    <!-- pan -->
+    <div class="col-md-12 col-xl-4">
         <a href="<?php echo base_url('EmployeeController/panView') ?>" class="button">
-            <div class="card text-white bg-primary">
+            <div class="card text-white bg-info-transparent">
                 <div class="card-body">
-                    <h4 class="card-title">Pan Card</h4>
-                    <h4 class="card-text">task to do: <span class="text-size"><?= $panData ?></span></h4>
-                    <div class="progress progress-md mb-0">
-                        <div class="progress-bar bg-success wp-<?= round($panPer) ?>"></div>
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <img src="<?php echo base_url('assets/images/doc-images/pancard.png'); ?>" class="" alt="logo" style="height: 75px; width:full;">
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $panData ?></span>
+                        </div>
                     </div>
-
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($panPer) ?>"></div>
+                    </div>
                 </div>
             </div>
         </a>
     </div>
-    <!-- CARD 2 -->
-    <div class="col-md-12 col-xl-3">
+    <!-- aadhar -->
+    <div class="col-md-12 col-xl-4">
         <a href="<?php echo base_url('EmployeeController/aadharView') ?>" class="button">
-            <div class="card text-white bg-danger">
-
+            <div class="card text-white bg-info-transparent">
                 <div class="card-body">
-                    <h4 class="card-title">Aadhaar</h4>
-                    <h4 class="card-text">task to do: <span class="text-size"><?= $aadharData ?></span></h4>
-                    <div class="progress progress-md mb-0">
-                        <div class="progress-bar bg-warning wp-<?= round($aadharPer) ?>"></div>
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <img src="<?php echo base_url('assets/images/doc-images/aadhar.png'); ?>" class="" alt="logo" style="height: 75px; width:full;">
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $aadharData ?></span>
+                        </div>
                     </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($aadharPer) ?>"></div>
+                    </div>
+
                 </div>
-
-
             </div>
         </a>
     </div>
-    <!-- CARD 3 -->
-    <div class="col-md-12 col-xl-3">
+    <!-- voterid -->
+    <div class="col-md-12 col-xl-4">
         <a href="<?php echo base_url('EmployeeController/voterIdView') ?>" class="button">
-
-            <div class="card text-white bg-success">
+            <div class="card text-white bg-info-transparent">
                 <div class="card-body">
-                    <h4 class="card-title">Voter ID</h4>
-                    <h4 class="card-text">task to do: <span class="text-size"><?= $voterIdData ?></span></h4>
-                    <div class="progress progress-md mb-0">
-                        <div class="progress-bar bg-info wp-<?= round($voterIdPer) ?>"></div>
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <img src="<?php echo base_url('assets/images/doc-images/voterid.png'); ?>" class="" alt="logo" style="height: 75px; width:full;">
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $voterIdData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($voterIdPer) ?>"></div>
                     </div>
                 </div>
             </div>
         </a>
     </div>
-    <!-- CARD 4 -->
-    <div class="col-md-12 col-xl-3">
+    <!-- driving license -->
+    <div class="col-md-12 col-xl-4">
         <a href="<?php echo base_url('EmployeeController/licenseView') ?>" class="button">
-            <div class="card text-white bg-info">
+            <div class="card text-white bg-info-transparent">
                 <div class="card-body">
-                    <h4 class="card-title">Driving License</h4>
-                    <h4 class="card-text">task to do: <span class="text-size"><?= $licenseData ?></span></h4>
-                    <div class="progress progress-md mb-0">
-                        <div class="progress-bar bg-secondary wp-<?= round($licensePer) ?>"></div>
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <img src="<?php echo base_url('assets/images/doc-images/license.png'); ?>" class="" alt="logo" style="height: 75px; width:full;">
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $licenseData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($licensePer) ?>"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- physical address -->
+    <div class="col-md-12 col-xl-4">
+        <a href="<?php echo base_url('EmployeeController/licenseView') ?>" class="button">
+            <div class="card text-white bg-info-transparent">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <img src="<?php echo base_url('assets/images/doc-images/voterid.png'); ?>" class="" alt="logo" style="height: 75px; width:full;"> -->
+                            <h2>PHYSICAL ADDRESS</h2>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $licenseData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($licensePer) ?>"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Police Check -->
+    <div class="col-md-12 col-xl-4">
+        <a href="<?php echo base_url('EmployeeController/licenseView') ?>" class="button">
+            <div class="card text-white bg-info-transparent">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <img src="<?php echo base_url('assets/images/doc-images/voterid.png'); ?>" class="" alt="logo" style="height: 75px; width:full;"> -->
+                            <h2>Police Check</h2>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $licenseData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($licensePer) ?>"></div>
                     </div>
                 </div>
             </div>
@@ -98,9 +168,98 @@
     </div>
 
 
-</div>
-</div>
-</div>
+    <!-- Education Check -->
+    <div class="col-md-12 col-xl-4">
+        <a href="<?php echo base_url('EmployeeController/licenseView') ?>" class="button">
+            <div class="card text-white bg-info-transparent">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <img src="<?php echo base_url('assets/images/doc-images/voterid.png'); ?>" class="" alt="logo" style="height: 75px; width:full;"> -->
+                            <h2> Education Check</h2>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $licenseData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($licensePer) ?>"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Employment Check -->
+    <div class="col-md-12 col-xl-4">
+        <a href="<?php echo base_url('EmployeeController/licenseView') ?>" class="button">
+            <div class="card text-white bg-info-transparent">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <img src="<?php echo base_url('assets/images/doc-images/voterid.png'); ?>" class="" alt="logo" style="height: 75px; width:full;"> -->
+                            <h2> Employment Check </h2>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $licenseData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($licensePer) ?>"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Credit Check -->
+    <div class="col-md-12 col-xl-4">
+        <a href="<?php echo base_url('EmployeeController/licenseView') ?>" class="button">
+            <div class="card text-white bg-info-transparent">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <img src="<?php echo base_url('assets/images/doc-images/voterid.png'); ?>" class="" alt="logo" style="height: 75px; width:full;"> -->
+                            <h2> Credit Check </h2>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $licenseData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($licensePer) ?>"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Reference Check -->
+    <div class="col-md-12 col-xl-4">
+        <a href="<?php echo base_url('EmployeeController/licenseView') ?>" class="button">
+            <div class="card text-white bg-info-transparent">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <img src="<?php echo base_url('assets/images/doc-images/voterid.png'); ?>" class="" alt="logo" style="height: 75px; width:full;"> -->
+                            <h2> Reference Check </h2>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-text text-info-gradient">task to do: </h6>
+                            <span class="text-size text-info-gradient"><?= $licenseData ?></span>
+                        </div>
+                    </div>
+                    <div class="progress progress-sm border border-info-gradient">
+                        <div class="progress-bar bg-info-gradient wp-<?= round($licensePer) ?>"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
 </div>
 <!-- END ROW -->
 

@@ -13,6 +13,8 @@ class EmployeeController extends BaseController
 
         $model = new EmployeeModel();
         $data['records'] = $model->getEmployeesById($id);
+        $data['user_id'] = $id;
+
 
         return view('pages/all-employee', $data);
     }
@@ -226,8 +228,7 @@ class EmployeeController extends BaseController
 
         $data['dropdown_data'] = $clientModel->getDropdownData();
         $data['records'] = $model->panData();
-        $where = ['is_pan' => 0];
-        $data['count'] = $model->countPanRecords($where);
+        $data['count'] = $model->countPanRecords();
 
         // return view('your_view', $data);
 
@@ -241,8 +242,7 @@ class EmployeeController extends BaseController
 
         $data['dropdown_data'] = $clientModel->getDropdownData();
         $data['records'] = $model->aadharData();
-        $where = ['is_aadhar' => 0];
-        $data['count'] = $model->countAadharRecords($where);
+        $data['count'] = $model->countAadharRecords();
 
 
         // return view('your_view', $data);
@@ -258,8 +258,7 @@ class EmployeeController extends BaseController
 
         $data['dropdown_data'] = $clientModel->getDropdownData();
         $data['records'] = $model->voterIdData();
-        $where = ['is_voter_id' => 0];
-        $data['count'] = $model->countVoterIdRecords($where);
+        $data['count'] = $model->countVoterIdRecords();
 
         // return view('your_view', $data);
         // $data['records'] = $model->findAll();
@@ -274,8 +273,7 @@ class EmployeeController extends BaseController
 
         $data['dropdown_data'] = $clientModel->getDropdownData();
         $data['records'] = $model->licenseData();
-        $where = ['is_license' => 0];
-        $data['count'] = $model->countLicenseRecords($where);
+        $data['count'] = $model->countLicenseRecords();
 
         // return view('your_view', $data);
         // $data['records'] = $model->findAll();
@@ -295,15 +293,15 @@ class EmployeeController extends BaseController
 
     public function filterPanStatus()
     {
+
         $model = new EmployeeModel();
 
-        $filterStatus = $this->request->getPost('filterStatus'); // Adjust based on your frontend implementation
+        $filterStatus = $this->request->getPost('filter'); // Adjust based on your frontend implementation
 
         $filteredData = $model->filterPanStatus($filterStatus); // Create this method in your UserModel
 
         return $this->response->setJSON(['data' => $filteredData]);
     }
-
 
 
     public function filterDataAadhar()

@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ClientModel;
 use App\Models\EmployeeModel;
-use App\Models\UserModel;
+use App\Models\ProfileModel;
 use App\Models\VerificationDocModel;
 use App\Models\VerificationModel;
 use CodeIgniter\I18n\Time;
@@ -73,6 +73,8 @@ class ClientController extends BaseController
     public function addEmployee()
     {
         $model = new EmployeeModel();
+        $ProfileModel = new ProfileModel();
+
         $id = $this->request->getPost('id');
         $myTime = new Time('now', 'Asia/Kolkata', 'en_US');
 
@@ -98,10 +100,6 @@ class ClientController extends BaseController
                 session()->setFlashdata('error_msg',  $msg);
                 return redirect()->to('/all-employee');
             }
-
-            echo "<pre>";
-            print_r($_POST);
-            die();
 
             $updatedData = [
                 'id' => $id,
@@ -137,10 +135,13 @@ class ClientController extends BaseController
                     'user_id' => $this->request->getPost('user_id'),
                     'first_name' => $this->request->getPost('first_name'),
                     'last_name' => $this->request->getPost('last_name'),
+                    'father_name' => $this->request->getPost('father_name'),
                     'mobile' => $this->request->getPost('mobile'),
+                    'alt_mobile' => $this->request->getPost('alt_mobile'),
                     'email' => $this->request->getPost('email'),
                     'dob' => $this->request->getPost('dob'),
                     'join_date' => $this->request->getPost('join_date'),
+
                     'pan' => $this->request->getPost('pan'),
                     'aadhar' => $this->request->getPost('aadhar'),
                     'voter_id' => $this->request->getPost('voter_id'),
@@ -150,9 +151,54 @@ class ClientController extends BaseController
                 $res = $model->insert($data);
 
                 if ($res) {
-                    $data = ['status' => 1000];
-                    $msg = 'Employee Added Successfully.';
-                    session()->setFlashdata('success_msg',  $msg);
+                    $employee = $model->where('email', $email)->first(); // find user by email
+                    $data = [
+                        'emp_id' => $employee['id'],
+                        'pan' => $this->request->getPost('pan'),
+                        'pan_ftn' => $this->request->getPost('pan_ftn'),
+                        'pan_dob' => $this->request->getPost('pan_dob'),
+
+                        'aadhar' => $this->request->getPost('aadhar'),
+                        'aadhar_ftn' => $this->request->getPost('aadhar_ftn'),
+                        'aadhar_dob' => $this->request->getPost('aadhar_dob'),
+
+                        'voter_id' => $this->request->getPost('voter_id'),
+                        'voter_ftn' => $this->request->getPost('voter_ftn'),
+                        'voter_dob' => $this->request->getPost('voter_dob'),
+
+                        'driving_lic' => $this->request->getPost('driving_lic'),
+                        'dl_ftn' => $this->request->getPost('dl_ftn'),
+                        'dl_dob' => $this->request->getPost('dl_dob'),
+
+                        'high_edu' => $this->request->getPost('high_edu'),
+                        'college_name' => $this->request->getPost('college_name'),
+                        'college_comp_date' => $this->request->getPost('college_comp_date'),
+                        'degree_name' => $this->request->getPost('degree_name'),
+
+                        'prev_comp_name' => $this->request->getPost('prev_comp_name'),
+                        'prev_comp_city' => $this->request->getPost('prev_comp_city'),
+                        'prev_comp_jd' => $this->request->getPost('prev_comp_jd'),
+                        'prev_comp_ed' => $this->request->getPost('prev_comp_ed'),
+                        'curr_comp_name' => $this->request->getPost('curr_comp_name'),
+                        'curr_comp_jd' => $this->request->getPost('curr_comp_jd'),
+                        'created_at' => $myTime
+                    ];
+
+                    $res_emp = $ProfileModel->insert($data);
+
+                    if ($res_emp) {
+                        $data = ['status' => 1000];
+                        $msg = 'Employee Added Successfully.';
+                        session()->setFlashdata('success_msg',  $msg);
+                    } else {
+                        $data = ['status' => 1001];
+                        $msg = 'Employee Not Found!';
+                        session()->setFlashdata('danger_msg',  $msg);
+                    }
+                } else {
+                    $data = ['status' => 1001];
+                    $msg = 'Employee Not Added!';
+                    session()->setFlashdata('danger_msg',  $msg);
                 }
                 return $this->response->setJSON($data);
 
