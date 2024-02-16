@@ -1,0 +1,11 @@
+       
+        <!-- BOOTSTRAP CSS -->
+        <link id="style" href="<?php echo base_url('assets/plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" />
+
+        <!-- STYLE CSS -->
+        <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet"/>
+
+        <!--- FONT-ICONS CSS -->
+        <link href="<?php echo base_url('assets/css/icons.css'); ?>" rel="stylesheet"/>
+
+        <?= $this->renderSection('landing-styles'); ?>
