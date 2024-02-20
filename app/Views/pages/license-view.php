@@ -318,7 +318,7 @@
         // Make an AJAX request to get filtered data
         $.ajax({
             type: 'POST',
-            url: '<?= base_url('EmployeeController/filterPanStatus') ?>',
+            url: '<?= base_url('EmployeeController/filterLicenseStatus') ?>',
             data: {
                 filter: selectedValue
             },
@@ -355,13 +355,15 @@
     $('#searchInput').on('keyup', function() {
         // Get the search query
         var query = $(this).val();
+        var doc = "is_license";
 
         // Make an AJAX request to the server
         $.ajax({
             url: '<?= base_url('EmployeeController/liveSearch') ?>',
             method: 'GET',
             data: {
-                query: query
+                query: query,
+                doc: doc
             },
             dataType: 'json',
             success: function(response) {

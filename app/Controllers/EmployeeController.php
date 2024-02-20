@@ -302,6 +302,39 @@ class EmployeeController extends BaseController
 
         return $this->response->setJSON(['data' => $filteredData]);
     }
+    public function filterAadharStatus()
+    {
+
+        $model = new EmployeeModel();
+
+        $filterStatus = $this->request->getPost('filter'); // Adjust based on your frontend implementation
+
+        $filteredData = $model->filterAadharStatus($filterStatus); // Create this method in your UserModel
+
+        return $this->response->setJSON(['data' => $filteredData]);
+    }
+    public function filterVoterIdStatus()
+    {
+
+        $model = new EmployeeModel();
+
+        $filterStatus = $this->request->getPost('filter'); // Adjust based on your frontend implementation
+
+        $filteredData = $model->filterVoterIdStatus($filterStatus); // Create this method in your UserModel
+
+        return $this->response->setJSON(['data' => $filteredData]);
+    }
+    public function filterLicenseStatus()
+    {
+
+        $model = new EmployeeModel();
+
+        $filterStatus = $this->request->getPost('filter'); // Adjust based on your frontend implementation
+
+        $filteredData = $model->filterLicenseStatus($filterStatus); // Create this method in your UserModel
+
+        return $this->response->setJSON(['data' => $filteredData]);
+    }
 
 
     public function filterDataAadhar()
@@ -359,6 +392,7 @@ class EmployeeController extends BaseController
 
     public function getEmployeeDelCheck()
     {
+
         $model = new EmployeeModel();
 
         $id = $_GET['id']; // Adjust based on your frontend implementation
@@ -371,16 +405,55 @@ class EmployeeController extends BaseController
 
     public function updateDelCheck()
     {
-        $model = new EmployeeModel();
-        $id = $this->request->getPost('id');
-        if (!empty($id)) {
-            $msg = 'Deleted Successfully.';
-            session()->setFlashdata('success_msg',  $msg);
-        }
 
-        return redirect()->to('/del-check');
         // print_r($_POST);
         // die();
+        $model = new EmployeeModel();
+        $id = $this->request->getPost('id');
+        $getData =  $model->find($id);
+        // print_r($getData['is_pan']);
+        // die();
+
+        if ($this->request->getPost('pan')) {
+            $pan = $this->request->getPost('pan');
+        } else {
+            $pan = $getData['is_pan'];
+        }
+        if ($this->request->getPost('aadhar')) {
+            $aadhar = $this->request->getPost('aadhar');
+        } else {
+            $aadhar = $getData['is_aadhar'];
+        }
+        if ($this->request->getPost('voter_id')) {
+            $voter_id = $this->request->getPost('voter_id');
+        } else {
+            $voter_id = $getData['is_voter_id'];
+        }
+
+        if ($this->request->getPost('license')) {
+            $license = $this->request->getPost('license');
+        } else {
+            $license = $getData['is_license'];
+        }
+
+        $updatedData = [
+            'is_pan' => $pan,
+            'is_aadhar' => $aadhar,
+            'is_voter_id' => $voter_id,
+            'is_license' => $license,
+        ];
+
+        $res = $model->update($id, $updatedData);
+
+        if ($res) {
+            $msg = 'Deleted Successfully.';
+            // session()->setFlashdata('success_msg',  $msg);
+        } else {
+            $msg = 'Not Deleted Successfully.';
+            // session()->setFlashdata('error_msg',  $msg);
+        }
+
+        // return redirect()->to('/del-check');
     }
 
     public function liveSearch()
@@ -390,9 +463,26 @@ class EmployeeController extends BaseController
 
         // Get the search query from the AJAX request
         $query = $this->request->getVar('query');
+        $doc = $this->request->getVar('doc');
 
         // Call a method in the model to perform the live search
-        $searchResults = $model->liveSearch($query);
+        $searchResults = $model->liveSearch($query, $doc);
+
+        // Return the search results as JSON
+        // return $this->response->setJSON($searchResults);
+        return $this->response->setJSON(['data' => $searchResults]);
+    }
+
+    public function liveSearchDelCheck()
+    {
+        // Load the model
+        $model = new EmployeeModel();
+
+        // Get the search query from the AJAX request
+        $query = $this->request->getVar('query');
+
+        // Call a method in the model to perform the live search
+        $searchResults = $model->liveSearchDelCheck($query);
 
         // Return the search results as JSON
         // return $this->response->setJSON($searchResults);

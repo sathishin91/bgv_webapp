@@ -33,13 +33,8 @@
         <h3 class="card-title">Input Groups</h3>
     </div> -->
     <div class="card-body">
-        <?php if (isset($validation)) : ?>
-            <div class="alert alert-danger">
-                <?= $validation->listErrors() ?>
-            </div>
-        <?php endif; ?>
         <!-- <form class="validate-form" method="post" action="<?php echo base_url('ClientController/addEmployee') ?>"> -->
-        <form class="validate-form" method="post" action="#">
+        <form class="myForm" id="myForm" action="#">
             <input type="hidden" id="user_id" name="user_id" class="user_id" value="<?= $clientRecord[0]['id'] ?>">
             <div class="row row-sm">
                 <div class="col-sm-12 col-md-12 col-lg-6">
@@ -131,7 +126,7 @@
                 </div>
 
                 <!-- pan details -->
-                <label class="form-label" for="basic-addon2">PAN Details<span class="text-danger"> *</span><span id="error_pan" class="text-danger "></span></label>
+                <label class="form-label" for="basic-addon2">PAN Details<span class="text-danger"> *</span><span id="error_pan" class="text-danger "></span><span id="error_pan_ftn" class="text-danger "></span><span id="error_pan_dob" class="text-danger "></span></label>
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group">
                         <div class="input-group mb-3">
@@ -159,7 +154,7 @@
 
             <!-- aadhar details -->
             <div class="row">
-                <label class="form-label" for="basic-addon3">Aadhar Details<span class="text-danger"> *</span><span id="error_aadhar" class="text-danger "></span></label>
+                <label class="form-label" for="basic-addon3">Aadhar Details<span class="text-danger"> *</span><span id="error_aadhar" class="text-danger "></span><span id="error_aadhar_ftn" class="text-danger "></span><span id="error_aadhar_dob" class="text-danger "></span></label>
 
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group">
@@ -189,7 +184,7 @@
 
             <!-- voter id details -->
             <div class="row">
-                <label class="form-label" for="basic-addon3">Voter Id Details<span class="text-danger"> *</span><span id="error_aadhar" class="text-danger "></span></label>
+                <label class="form-label" for="basic-addon3">Voter Id Details</label>
 
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group">
@@ -219,7 +214,7 @@
 
             <!-- driving license details -->
             <div class="row">
-                <label class="form-label" for="basic-addon3">Driving license Details<span class="text-danger"> *</span><span id="error_aadhar" class="text-danger "></span></label>
+                <label class="form-label" for="basic-addon3">Driving license Details</label>
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group">
                         <div class="input-group mb-3">
@@ -247,11 +242,11 @@
 
             <!-- education details -->
             <div class="row">
-                <label class="form-label" for="basic-addon3">Education Details<span class="text-danger"> *</span><span id="error_aadhar" class="text-danger "></span></label>
+                <label class="form-label" for="basic-addon3">Education Details<span class="text-danger"> *</span><span id="error_ed_college" class="text-danger"></span><span id="error_ed_date" class="text-danger"></span><span id="error_ed_degree" class="text-danger"></span></label>
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group">
                         <div class="input-group mb-3">
-                            <select name="high_edu" id="high_edu" class="form-control form-select">
+                            <select name="high_edu" id="high_edu" class="form-control form-select high_edu">
                                 <option value="">-- select highest education --</option>
                                 <option value="">10th or below</option>
                                 <option value="">12th</option>
@@ -290,7 +285,7 @@
 
             <!-- employment details -->
             <div class="row">
-                <label class="form-label" for="basic-addon3">Employment Details<span class="text-danger"> *</span><span id="error_aadhar" class="text-danger "></span></label>
+                <label class="form-label" for="basic-addon3">Employment Details<span class="text-danger"> *</span><span id="error_prev_cn" class="text-danger "></span><span id="error_prev_city" class="text-danger "></span><span id="error_prev_jd" class="text-danger "></span><span id="error_prev_ed" class="text-danger "></span></label>
 
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group">
@@ -354,10 +349,7 @@
                     </div>
                 </div>
             </div>
-
-
         </form>
-
     </div>
 </div>
 
@@ -376,191 +368,343 @@
 <script>
     $(document).ready(function() {
         $(document).on('click', '.ajaxAdd', function() {
-            var panRegex = /^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/;
-            var pan = $('.pan').val();
-            var aadharRegex = /^\d{12}$/;
-            var aadhar = $('.aadhar').val();
+            $('#myForm').submit(function(event) {
+                event.preventDefault();
+                var panRegex = /^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/;
+                var pan = $('.pan').val();
+                var aadharRegex = /^\d{12}$/;
+                var aadhar = $('.aadhar').val();
 
-            if ($.trim($('.first_name').val()).length == 0) {
-                error_fn = "Please enter first name";
-                $('#error_fn').text(error_fn);
+                if ($.trim($('.first_name').val()).length == 0) {
+                    error_fn = "Please enter first name";
+                    $('#error_fn').text(error_fn);
 
-            } else {
-                error_fn = "";
-                $('#error_fn').text(error_fn);
-
-            }
-
-            if ($.trim($('.last_name').val()).length == 0) {
-                error_ln = "Please enter last name";
-                $('#error_ln').text(error_ln);
-
-            } else {
-                error_ln = "";
-                $('#error_ln').text(error_ln);
-
-            }
-
-            if ($.trim($('.mobile').val()).length == 0) {
-                error_mob = "Please enter mobile number";
-                $('#error_mob').text(error_mob);
-
-            } else {
-                error_mob = "";
-                $('#error_mob').text(error_mob);
-
-            }
-
-            if ($.trim($('.email').val()).length == 0) {
-                error_email = "Please enter valid email";
-                $('#error_email').text(error_email);
-
-            } else {
-                error_email = "";
-                $('#error_email').text(error_email);
-
-            }
-
-            if ($.trim($('.dob').val()).length == 0) {
-                error_dob = "Please enter date of birth";
-                $('#error_dob').text(error_dob);
-
-            } else {
-                error_dob = "";
-                $('#error_dob').text(error_dob);
-
-            }
-
-            if ($.trim($('.join_date').val()).length == 0) {
-                error_jd = "Please enter joining date";
-                $('#error_jd').text(error_jd);
-
-            } else {
-                error_jd = "";
-                $('#error_jd').text(error_jd);
-
-            }
-
-            if ($.trim($('.pan').val()).length == 0) {
-                error_pan = "Please enter pan number";
-                $('#error_pan').text(error_pan);
-
-            } else {
-                error_pan = "";
-                $('#error_pan').text(error_pan);
-
-            }
-
-            if ($.trim($('.aadhar').val()).length == 0) {
-                error_aadhar = "Please enter aadhar number";
-                $('#error_aadhar').text(error_aadhar);
-
-            } else {
-                error_aadhar = "";
-                $('#error_aadhar').text(error_aadhar);
-
-            }
-
-            if (pan.search(panRegex) == -1) {
-                error_pan = "Please enter valid pan number";
-                $('#error_pan').text(error_pan);
-
-            } else {
-                error_pan = "";
-                $('#error_pan').text(error_pan);
-            }
-
-
-            if (aadhar.search(aadharRegex) == -1) {
-                error_aadhar = "Please enter valid aadhar number";
-                $('#error_aadhar').text(error_aadhar);
-
-            } else {
-                error_aadhar = "";
-                $('#error_aadhar').text(error_aadhar);
-            }
-
-            if (error_fn != '' || error_ln != '' || error_mob != '' || error_email != '' || error_dob != '' || error_jd != '' || error_pan != '' || error_aadhar != '') {
-                return false;
-
-            } else {
-
-                var data = {
-                    'user_id': $('.user_id').val(),
-                    'first_name': $('.first_name').val(),
-                    'last_name': $('.last_name').val(),
-                    'father_name': $('.father_name').val(),
-                    'mobile': $('.mobile').val(),
-                    'alt_mobile': $('.alt_mobile').val(),
-                    'email': $('.email').val(),
-                    'location': $('.location').val(),
-                    'dob': $('.dob').val(),
-                    'join_date': $('.join_date').val(),
-
-                    'pan': $('.pan').val(),
-                    'pan_ftn': $('.pan_ftn').val(),
-                    'pan_dob': $('.pan_dob').val(),
-
-                    'aadhar': $('.aadhar').val(),
-                    'aadhar_ftn': $('.aadhar_ftn').val(),
-                    'aadhar_dob': $('.aadhar_dob').val(),
-
-                    'voter_id': $('.voter_id').val(),
-                    'voter_ftn': $('.voter_ftn').val(),
-                    'voter_dob': $('.voter_dob').val(),
-
-                    'driving_lic': $('.driving_lic').val(),
-                    'dl_ftn': $('.dl_ftn').val(),
-                    'dl_dob': $('.dl_dob').val(),
-
-                    'high_edu': $('.high_edu').val(),
-                    'college_name': $('.college_name').val(),
-                    'college_comp_date': $('.college_comp_date').val(),
-                    'degree_name': $('.degree_name').val(),
-
-                    'prev_comp_name': $('.prev_comp_name').val(),
-                    'prev_comp_city': $('.prev_comp_city').val(),
-                    'prev_comp_jd': $('.prev_comp_jd').val(),
-                    'prev_comp_ed': $('.prev_comp_ed').val(),
-                    'curr_comp_name': $('.prev_comp_name').val(),
-                    'curr_comp_jd': $('.prev_comp_name').val(),
+                } else {
+                    error_fn = "";
+                    $('#error_fn').text(error_fn);
 
                 }
 
-                $.ajax({
-                    method: 'post',
-                    url: '<?php echo base_url('ClientController/addEmployee') ?>',
-                    data: data,
-                    success: function(response) {
-                        if (response.status == "1000" && response.status != '') {
-                            $.toast({
-                                heading: "Success",
-                                text: result.message,
-                                position: "top-right",
-                                loaderBg: "#5ba035",
-                                icon: "success"
-                            });
-                            // setTimeout(function() {
-                            //     location.reload();
-                            // }, 3000);
+                if ($.trim($('.last_name').val()).length == 0) {
+                    error_ln = "Please enter last name";
+                    $('#error_ln').text(error_ln);
 
-                        } else {
-                            $.toast({
-                                heading: "Error",
-                                text: result.message,
-                                position: "top-right",
-                                loaderBg: "#5ba035",
-                                icon: "error"
-                            });
-                        }
+                } else {
+                    error_ln = "";
+                    $('#error_ln').text(error_ln);
+
+                }
+                if ($.trim($('.father_name').val()).length == 0) {
+                    error_ln = "Please enter father's name";
+                    $('#error_ftn').text(error_ln);
+
+                } else {
+                    error_ln = "";
+                    $('#error_ftn').text(error_ln);
+
+                }
+
+                if ($.trim($('.mobile').val()).length == 0) {
+                    error_mob = "Please enter mobile number";
+                    $('#error_mob').text(error_mob);
+
+                } else {
+                    error_mob = "";
+                    $('#error_mob').text(error_mob);
+
+                }
+
+                if ($.trim($('.email').val()).length == 0) {
+                    error_email = "Please enter valid email";
+                    $('#error_email').text(error_email);
+
+                } else {
+                    error_email = "";
+                    $('#error_email').text(error_email);
+
+                }
+
+                if ($.trim($('.location').val()).length == 0) {
+                    error_email = "Please enter location";
+                    $('#error_location').text(error_email);
+
+                } else {
+                    error_email = "";
+                    $('#error_location').text(error_email);
+
+                }
+
+                if ($.trim($('.dob').val()).length == 0) {
+                    error_dob = "Please enter date of birth";
+                    $('#error_dob').text(error_dob);
+
+                } else {
+                    error_dob = "";
+                    $('#error_dob').text(error_dob);
+
+                }
+
+                if ($.trim($('.join_date').val()).length == 0) {
+                    error_jd = "Please enter joining date";
+                    $('#error_jd').text(error_jd);
+
+                } else {
+                    error_jd = "";
+                    $('#error_jd').text(error_jd);
+
+                }
+
+                if ($.trim($('.pan').val()).length == 0) {
+                    error_pan = "Please enter pan number";
+                    empty = "";
+                    $('#error_pan').text(error_pan);
+                    $('#error_pan_ftn').text(empty);
+                    $('#error_pan_dob').text(empty);
+
+                } else if ($.trim($('.pan_ftn').val()).length == 0) {
+                    error_pan = "Please enter father's name as per pan card";
+                    empty = "";
+
+                    $('#error_pan').text(empty);
+                    $('#error_pan_ftn').text(error_pan);
+                    $('#error_pan_dob').text(empty);
+
+                } else if ($.trim($('.pan_dob').val()).length == 0) {
+                    error_pan = "Please enter dob as per pan card";
+                    empty = "";
+                    $('#error_pan_ftn').text(empty);
+                    $('#error_pan').text(empty);
+                    $('#error_pan_dob').text(error_pan);
+                } else {
+                    error_pan = "";
+                    $('#error_pan').text(error_pan);
+                    $('#error_pan_ftn').text(error_pan);
+                    $('#error_pan_dob').text(error_pan);
+
+                }
+
+                if (pan.search(panRegex) == -1) {
+                    error_pan = "Please enter valid pan number";
+                    $('#error_pan').text(error_pan);
+
+                } else {
+                    error_pan = "";
+                    $('#error_pan').text(error_pan);
+                }
+
+                if ($.trim($('.aadhar').val()).length == 0) {
+                    error_aadhar = "Please enter aadhar number";
+                    empty = "";
+                    $('#error_aadhar').text(error_aadhar);
+                    $('#error_aadhar_ftn').text(empty);
+                    $('#error_aadhar_dob').text(empty);
+
+                } else if ($.trim($('.aadhar_ftn').val()).length == 0) {
+                    error_aadhar = "Please enter father's name as per aadhar card";
+                    empty = "";
+
+                    $('#error_aadhar').text(empty);
+                    $('#error_aadhar_ftn').text(error_aadhar);
+                    $('#error_aadhar_dob').text(empty);
+
+                } else if ($.trim($('.aadhar_dob').val()).length == 0) {
+                    error_aadhar = "Please enter dob as per aadhar card";
+                    empty = "";
+                    $('#error_aadhar').text(empty);
+                    $('#error_aadhar_ftn').text(empty);
+                    $('#error_aadhar_dob').text(error_aadhar);
+                } else {
+                    error_aadhar = "";
+                    $('#error_aadhar').text(error_aadhar);
+                    $('#error_aadhar_ftn').text(error_aadhar);
+                    $('#error_aadhar_dob').text(error_aadhar);
+
+                }
+
+                if (aadhar.search(aadharRegex) == -1) {
+                    error_aadhar = "Please enter valid aadhar number";
+                    $('#error_aadhar').text(error_aadhar);
+
+                } else {
+                    error_aadhar = "";
+                    $('#error_aadhar').text(error_aadhar);
+                }
+
+                if ($.trim($('.college_name').val()).length == 0) {
+                    error_education = "Please enter college name";
+                    empty = "";
+                    $('#error_ed_college').text(error_education);
+                    $('#error_ed_date').text(empty);
+                    $('#error_ed_degree').text(empty);
+
+                } else if ($.trim($('.college_comp_date').val()).length == 0) {
+                    error_education = "Please college completion date";
+                    empty = "";
+                    $('#error_ed_college').text(empty);
+                    $('#error_ed_date').text(error_education);
+                    $('#error_ed_degree').text(empty);
+
+                } else if ($.trim($('.degree_name').val()).length == 0) {
+                    error_education = "Please enter degree name";
+                    empty = "";
+                    $('#error_ed_college').text(empty);
+                    $('#error_ed_date').text(empty);
+                    $('#error_ed_degree').text(error_education);
+
+                } else {
+                    error_education = "";
+                    $('#error_ed_college').text(error_education);
+                    $('#error_ed_date').text(error_education);
+                    $('#error_ed_degree').text(error_education);
+                }
+
+                if ($.trim($('.prev_comp_name').val()).length == 0) {
+                    error_employment = "Please enter previous company name";
+                    empty = "";
+                    $('#error_prev_cn').text(error_employment);
+                    $('#error_prev_city').text(empty);
+                    $('#error_prev_jd').text(empty);
+                    $('#error_prev_ed').text(empty);
+
+                } else if ($.trim($('.prev_comp_city').val()).length == 0) {
+                    error_employment = "Please enter previous company city";
+                    empty = "";
+
+                    $('#error_prev_cn').text(empty);
+                    $('#error_prev_city').text(error_employment);
+                    $('#error_prev_jd').text(empty);
+                    $('#error_prev_ed').text(empty);
+
+                } else if ($.trim($('.prev_comp_jd').val()).length == 0) {
+                    error_employment = "Please enter previous company joining date";
+                    empty = "";
+                    $('#error_prev_cn').text(empty);
+                    $('#error_prev_city').text(empty);
+                    $('#error_prev_jd').text(error_employment);
+                    $('#error_prev_ed').text(empty);
+
+                } else if ($.trim($('.prev_comp_ed').val()).length == 0) {
+                    error_employment = "Please enter previous company ending date";
+                    empty = "";
+                    $('#error_prev_cn').text(empty);
+                    $('#error_prev_city').text(empty);
+                    $('#error_prev_jd').text(empty);
+                    $('#error_prev_ed').text(error_employment);
+
+                } else {
+                    error_employment = "";
+                    $('#error_prev_cn').text(error_employment);
+                    $('#error_prev_city').text(error_employment);
+                    $('#error_prev_jd').text(error_employment);
+                    $('#error_prev_ed').text(error_employment);
+                }
+
+                if (error_fn != '' || error_ln != '' || error_mob != '' || error_email != '' || error_dob != '' || error_jd != '' || error_pan != '' || error_aadhar != '' || error_education != '' || error_employment != '') {
+                    return false;
+
+                } else {
+
+                    var data = {
+                        'user_id': $('.user_id').val(),
+                        'first_name': $('.first_name').val(),
+                        'last_name': $('.last_name').val(),
+                        'father_name': $('.father_name').val(),
+                        'mobile': $('.mobile').val(),
+                        'alt_mobile': $('.alt_mobile').val(),
+                        'email': $('.email').val(),
+                        'location': $('.location').val(),
+                        'dob': $('.dob').val(),
+                        'join_date': $('.join_date').val(),
+
+                        'pan': $('.pan').val(),
+                        'pan_ftn': $('.pan_ftn').val(),
+                        'pan_dob': $('.pan_dob').val(),
+
+                        'aadhar': $('.aadhar').val(),
+                        'aadhar_ftn': $('.aadhar_ftn').val(),
+                        'aadhar_dob': $('.aadhar_dob').val(),
+
+                        'voter_id': $('.voter_id').val(),
+                        'voter_ftn': $('.voter_ftn').val(),
+                        'voter_dob': $('.voter_dob').val(),
+
+                        'driving_lic': $('.driving_lic').val(),
+                        'dl_ftn': $('.dl_ftn').val(),
+                        'dl_dob': $('.dl_dob').val(),
+
+                        'high_edu': $('.high_edu').val(),
+                        'college_name': $('.college_name').val(),
+                        'college_comp_date': $('.college_comp_date').val(),
+                        'degree_name': $('.degree_name').val(),
+
+                        'prev_comp_name': $('.prev_comp_name').val(),
+                        'prev_comp_city': $('.prev_comp_city').val(),
+                        'prev_comp_jd': $('.prev_comp_jd').val(),
+                        'prev_comp_ed': $('.prev_comp_ed').val(),
+                        'curr_comp_name': $('.prev_comp_name').val(),
+                        'curr_comp_jd': $('.prev_comp_name').val(),
+
                     }
 
-                });
+                    $.ajax({
+                        method: 'post',
+                        url: '<?php echo base_url('ClientController/addEmployee') ?>',
+                        data: data,
+                        success: function(response) {
+                            if (response.status == "1000" && response.status != '') {
+                                $('#myForm :input').val('');
+                                $.toast({
+                                    heading: "Success",
+                                    // text: result.msg,
+                                    text: "Employee Added Succesfully.",
+                                    position: "top-right",
+                                    loaderBg: "#5ba035",
+                                    icon: "success"
+                                });
+                                // setTimeout(function() {
+                                //     location.reload();
+                                // }, 3000);
 
-            }
+                            } else if (response.status == "1001" && response.status != '') {
+                                // alert(response.msg)
+
+                                $.toast({
+                                    heading: "Error",
+                                    text: "Employee Not Found!",
+                                    position: "top-right",
+                                    loaderBg: "#5ba035",
+                                    icon: "error"
+                                });
+                            } else if (response.status == "1002" && response.status != '') {
+                                // alert(response.msg)
+
+                                $.toast({
+                                    heading: "Error",
+                                    text: "Employee Not Added!",
+                                    position: "top-right",
+                                    loaderBg: "#5ba035",
+                                    icon: "error"
+                                });
+                            } else if (response.status == "1003" && response.status != '') {
+                                // alert(response.msg)
+
+                                $.toast({
+                                    heading: "Error",
+                                    text: "Email already exists!",
+                                    position: "top-right",
+                                    loaderBg: "#5ba035",
+                                    icon: "error"
+                                });
+                            }
+                        }
+
+                    });
+
+                }
 
 
-        })
+            });
+        });
 
     });
 </script>

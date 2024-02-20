@@ -29,31 +29,26 @@
 <!-- PAGE-HEADER END -->
 <div class="row mb-4">
 
-    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5">
-        <select id="filter" name="filter" class="form-select">
-            <option value="">select client</option>
+    <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <select id="filter" name="filter" class="form-select" style="font-size: 14px;">
+            <option value="">--select client--</option>
             <?php foreach ($dropdown_data as $row) : ?>
                 <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
             <?php endforeach; ?>
         </select>
     </div>
-    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
-        <select class="form-select" aria-label="Default select example">
+
+    <!-- <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <select class="form-select" aria-label="Default select example" style="font-size: 14px;">
             <option selected>Profile view</option>
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
         </select>
-    </div>
+    </div> -->
     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
         <div class="input-group">
-            <div class="form-outline">
-                <input type="search" id="form1" class="form-control" />
-                <!-- <label class="form-label" for="form1">Search</label> -->
-            </div>
-            <button type="button" class="btn btn-primary">
-                <i class="fa fa-search"></i>
-            </button>
+            <input class="form-control" placeholder="Search by employee name" type="search" data-search id="searchInput" style="font-size: 14px;">
         </div>
     </div>
 
@@ -78,42 +73,43 @@
     </div>
     <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
         <div class="card" id="employeeDetails">
-
-            <div class="card-body p-6">
-                <div class="panel panel-primary">
-                    <div class="tab-menu-heading border-bottom-0">
-                        <div class="tabs-menu4 border-bottomo-sm">
-                            <!-- Tabs -->
-                            <nav class="nav d-sm-flex d-block">
-                                <a class="nav-link border border-bottom-0 br-sm-5 me-2 active" data-bs-toggle="tab" href="#tab25">
-                                    ID Cards
-                                </a>
-                                <a class="nav-link border border-bottom-0 br-sm-5 me-2" data-bs-toggle="tab1" href="#tab26">
+            <form action="EmployeeController/updateDelCheck" method="post" id="myForm">
+                <div class="card-body p-6 ">
+                    <div class="panel panel-primary">
+                        <div class="tab-menu-heading border-bottom-0">
+                            <div class="tabs-menu4 border-bottomo-sm">
+                                <!-- Tabs -->
+                                <nav class="nav d-sm-flex d-block">
+                                    <a class="nav-link border border-bottom-0 br-sm-5 me-2 active" data-bs-toggle="tab" href="#tab25">
+                                        ID Cards
+                                    </a>
+                                    <!-- <a class="nav-link border border-bottom-0 br-sm-5 me-2" data-bs-toggle="tab1" href="#tab26">
                                     Address Checks
-                                </a>
-                            </nav>
+                                </a> -->
+                                </nav>
+                            </div>
                         </div>
-                    </div>
-                    <div class="panel-body tabs-menu-body">
-                        <div class="tab-content">
-                            <form action="EmployeeController/updateDelCheck" method="post">
-                                <div class="tab-pane active" id="tab25" style="height:200px;">
+                        <div class="panel-body tabs-menu-body">
+                            <div class="tab-content ">
+                                <div class="tab-pane active h-250" id="tab25">
 
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-10 col-sm-10 col-xs-10">
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 col-xs-2">
-                                        <button class="btn btn-primary delete-btn" style="display: inline;">Delete</button>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="tab-pane" id="tab26">
+                                <!-- <div class="tab-pane" id="tab26">
+                              </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-10 col-sm-10 col-xs-10">
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2">
+                            <button class="btn btn-primary delete-btn" style="display: inline;">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
     </div>
@@ -131,6 +127,45 @@
 <!-- COLOR THEME JS -->
 <script src="<?php echo base_url('assets/js/themeColors.js'); ?>"></script>
 
+<script>
+    $(document).ready(function() {
+        // Attach a submit event listener to the form
+        $('#myForm').submit(function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+            var formData = $(this).serialize();
+
+            // Perform your Ajax logic here
+            $.ajax({
+                method: 'POST',
+                url: 'EmployeeController/updateDelCheck',
+                data: formData, // Serialize the form data
+                success: function(response) {
+                    // Handle the Ajax response
+                    console.log(response);
+                    $.toast({
+                        heading: "Success",
+                        // text: result.msg,
+                        text: "Deleted Succesfully.",
+                        position: "top-right",
+                        loaderBg: "#5ba035",
+                        icon: "success"
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Handle Ajax errors if needed
+                    $.toast({
+                        heading: "Error",
+                        text: "Not Deleted Succesfully!",
+                        position: "top-right",
+                        loaderBg: "#5ba035",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+    });
+</script>
 <script>
     // Add JavaScript to handle the dropdown change event
     $('#filter').on('change', function() {
@@ -152,10 +187,9 @@
                     // console.log(item)
                     var fullName = item.first_name + ' ' + item.last_name;
 
-                    tableHtml += '<a href="javascript:void(0)" data-employee-id="' + item.id + '" id="tab" onclick=getData(' + item.id + ')> <li class="list-group-item d-flex justify-content-between align-items-start tab"><div class="ms-2 me-auto"><div class="fw-bold">' + fullName + '</div>Content for list item</div></li></a>';
+                    tableHtml += '<a href="javascript:void(0)" data-employee-id="' + item.id + '" id="tab" onclick=getData(' + item.id + ')> <li class="list-group-item d-flex justify-content-between align-items-start tab"><div class="ms-2 me-auto"><div class="fw-bold">' + fullName + '</div><div>' + item.name + '</div></li></a>';
                 });
                 $('#userTable').html(tableHtml);
-                // $('#panTable').remove();
 
             }
         });
@@ -177,18 +211,23 @@
                 // $('#employeeDetails').html(data);
                 var tabHtml = '';
                 $.each(response.data, function(index, item) {
-
                     if (item.is_pan == 1) {
-                        tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"> <input type = "checkbox" class = "pan mt-2" name = "pan"> <span style = "font-size: 16px;"> PAN CARD </span><h6>' + item.created_at + '</h6></div>';
+                        tabHtml += '<label class="ckbox" for="pan"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="pan" class ="pan" name="pan" value="2"><span>PAN CARD</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
+
+                        // tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"> <input type="checkbox" class ="pan mt-2" name = "pan"> <span style = "font-size: 16px;"> PAN CARD </span><h6>' + item.created_at + '</h6></div>';
                     }
                     if (item.is_aadhar == 1) {
-                        tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"><input type="checkbox" class="aadhar mt-2" name="aadhar"><span style="font-size: 16px;">AADHAR CARD</span><h6>' + item.created_at + '</h6></div>';
+                        // tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"><input type="checkbox" class="aadhar mt-2" name="aadhar"><span style="font-size: 16px;">AADHAR CARD</span><h6>' + item.created_at + '</h6></div>';
+                        tabHtml += '<label class="ckbox" for="aadhar"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="aadhar" class="aadhar" name="aadhar"  value="2"><span>AADHAR CARD</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
                     }
                     if (item.is_voter_id == 1) {
-                        tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"><input type="checkbox" class="voterid mt-2" name="voter_id"><span style="font-size: 16px;">VOTERID CARD</span><h6>' + item.created_at + '</h6></div>';
+                        // tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"><input type="checkbox" class="voterid mt-2" name="voter_id"><span style="font-size: 16px;">VOTERID CARD</span><h6>' + item.created_at + '</h6></div>';
+                        tabHtml += '<label class="ckbox" for="voter_id"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="voter_id" class="voter_id" name="voter_id" value="2"><span>VOTER ID</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
                     }
+
                     if (item.is_license == 1) {
-                        tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"><input type="checkbox" class="license mt-2" name="license"><span style="font-size: 16px;">LICENSE CARD</span><h6>' + item.created_at + '</h6></div>';
+                        // tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"><input type="checkbox" class="license mt-2" name="license"><span style="font-size: 16px;">LICENSE CARD</span><h6>' + item.created_at + '</h6></div>'; tabHtml += '<label class="ckbox" for="voter_id"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="voter_id" class="voter_id" name="voter_id"><span>VOTER ID</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
+                        tabHtml += '<label class="ckbox" for="license"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="license" class="license" name="license" value="2"><span>DRIVING LICENSE</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
                     }
 
                 });
@@ -206,6 +245,37 @@
             }
         });
     }
+</script>
+<script>
+    // Add a keyup event listener to the input field for live search
+    $('#searchInput').on('keyup', function() {
+        // Get the search query
+        var query = $(this).val();
+
+        // Make an AJAX request to the server
+        $.ajax({
+            url: '<?= base_url('EmployeeController/liveSearchDelCheck') ?>',
+            method: 'GET',
+            data: {
+                query: query
+            },
+            dataType: 'json',
+            success: function(response) {
+                // alert(response.result)
+                // Update the search results container with the retrieved data
+                // var resultsContainer = $('#searchResults');
+                // resultsContainer.empty();
+                var tableHtml = '';
+                $.each(response.data, function(index, item) {
+                    // console.log(item)
+                    var fullName = item.first_name + ' ' + item.last_name;
+
+                    tableHtml += '<a href="javascript:void(0)" data-employee-id="' + item.id + '" id="tab" onclick=getData(' + item.id + ')> <li class="list-group-item d-flex justify-content-between align-items-start tab"><div class="ms-2 me-auto"><div class="fw-bold">' + fullName + '</div><div>' + item.name + '</div></li></a>';
+                });
+                $('#userTable').html(tableHtml);
+            }
+        });
+    });
 </script>
 
 <?= $this->endSection('scripts'); ?>

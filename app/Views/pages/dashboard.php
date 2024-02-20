@@ -28,10 +28,10 @@
     <div class="col-lg-8 col-md-12">
         <div class="card">
             <div class="card-header border-bottom">
-                <h3 class="card-title">Line chart</h3>
+                <h3 class="card-title">Overall Progress</h3>
             </div>
             <div class="card-body">
-                <div id="echart1" class="chartsh"></div>
+                <div id="client_chart" class="chartsh"></div>
             </div>
         </div>
     </div>
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="" class="d-block"><b>Current profile status:</b></label>
+                        <label for="" class="d-block"><b>Employment type:</b></label>
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="fulltimeCheckbox" value="fulltime" class="form-check-input">
                             <label for="fulltimeCheckbox" class="form-check-label">Full time</label>
@@ -117,6 +117,100 @@
 <?= $this->endSection('content'); ?>
 
 <?= $this->section('scripts'); ?>
+<script>
+    // Use the Fetch API to get data from the CodeIgniter controller
+    fetch('<?= base_url('DashboardController/fetchData'); ?>')
+        .then(response => response.json())
+        .then(data => {
+            // Handle the retrieved data
+            console.log('Data from CodeIgniter:', data);
+
+            // Use the data as needed, e.g., update the DOM
+            document.getElementById('output').innerText = `Name: ${data.name}, Age: ${data.age}`;
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>
+<script>
+    $(function(e) {
+        /*----- Line Chart-01 ----*/
+        var chart = document.getElementById("client_chart");
+        // var chart  = echarts.init(document.querySelector('#echart1'), null);
+
+        var chartdata = [{
+                name: "green cases",
+                type: "bar",
+                data: [20, 15, 9, 18, 10, 15],
+            },
+            {
+                name: "yellow cases",
+                type: "bar",
+                // smooth: true,
+                data: [8, 5, 25, 10, 10],
+            },
+            {
+                name: "red cases",
+                type: "bar",
+                data: [10, 14, 10, 15, 9, 25, 30],
+            },
+        ];
+
+        var barChart = echarts.init(chart);
+        var option = {
+            grid: {
+                top: "6",
+                right: "0",
+                bottom: "17",
+                left: "25",
+            },
+            xAxis: {
+                data: ["2024", "2025", "2026", "2027"],
+                axisLine: {
+                    lineStyle: {
+                        color: "rgba(119, 119, 142, 0.2)",
+                    },
+                },
+                axisLabel: {
+                    fontSize: 10,
+                    color: "#9ba6b5",
+                },
+            },
+            tooltip: {
+                show: true,
+                showContent: true,
+                alwaysShowContent: true,
+                triggerOn: "mousemove",
+                trigger: "axis",
+                axisPointer: {
+                    label: {
+                        show: false,
+                    },
+                },
+            },
+            yAxis: {
+                splitLine: {
+                    lineStyle: {
+                        color: "rgba(119, 119, 142, 0.2)",
+                    },
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: "rgba(119, 119, 142, 0.2)",
+                    },
+                },
+                axisLabel: {
+                    fontSize: 10,
+                    color: "#9ba6b5",
+                },
+            },
+            series: chartdata,
+            color: ["#b7dd88", "#f0db97", "#ffb0c1"],
+        };
+        barChart.setOption(option);
+        window.addEventListener("resize", function() {
+            barChart.resize();
+        });
+    })
+</script>
 <!-- ECHART JS -->
 <script src="<?php echo base_url('assets/plugins/echarts/echarts.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/echarts.js'); ?>"></script>

@@ -134,6 +134,19 @@ class EmployeeModel extends Model
         return $this->where('is_pan', $filter)->find();
     }
 
+    public function filterAadharStatus($filter)
+    {
+        return $this->where('is_aadhar', $filter)->find();
+    }
+    public function filterVoterIdStatus($filter)
+    {
+        return $this->where('is_voter_id', $filter)->find();
+    }
+    public function filterLicenseStatus($filter)
+    {
+        return $this->where('is_license', $filter)->find();
+    }
+
     public function filterDataAadhar($filter)
     {
         return $this->where('user_id', $filter)
@@ -154,7 +167,18 @@ class EmployeeModel extends Model
 
     public function filterDataDelCheck($filter)
     {
-        return $this->where('user_id', $filter)->findAll();
+        // return $this->where('user_id', $filter)->findAll();
+        // Select columns from both tables
+        $this->select('employee.*, client.name');
+
+        // Specify the main table (posts) and the join table (users)
+        $this->join('client', 'client.id = employee.user_id', 'left');
+
+        // WHERE condition on the user ID
+        $this->where('employee.user_id', $filter);
+
+        // Get the result
+        return $this->findAll();
     }
 
     public function getEmployeeDelCheckData($id)
@@ -162,20 +186,36 @@ class EmployeeModel extends Model
         return $this->where('id', $id)->find();
     }
 
-    public function liveSearch($query)
+    public function liveSearch($query, $doc)
     {
         // Query the database to retrieve search results based on the provided query
-        $results = $this->db->table('employee')
+        return $this->whereIn($doc, [3, 4, 5])
             ->like('first_name', $query)
-            // ->like('last_name', $query)
-            ->where('is_pan', 0)
-            ->get()
-            ->getResult();
+            ->orLike('last_name', $query)
+            ->findAll();
+    }
 
-        // print_r($result);
-        // die();
+    public function liveSearchDelCheck($query)
+    {
+        // // Query the database to retrieve search results based on the provided query
+        // return $this->like('first_name', $query)
+        //     ->orLike('last_name', $query)
+        //     ->findAll();
 
-        return $results;
-        // return $this->like('first_name', 'vaibhav')->findAll();
+        // Select columns from both tables
+        $this->select('employee.*, client.name');
+
+        // Specify the main table (posts) and the join table (users)
+        $this->join('client', 'client.id = employee.user_id', 'left');
+
+        // WHERE condition on the user ID
+        // $this->where('posts.user_id', $userId);
+
+        // LIKE condition on the post title or content
+        $this->like('employee.first_name', $query);
+        $this->orLike('employee.last_name', $query);
+
+        // Get the result
+        return $this->findAll();
     }
 }

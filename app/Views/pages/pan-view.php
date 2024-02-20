@@ -354,13 +354,15 @@
     $('#searchInput').on('keyup', function() {
         // Get the search query
         var query = $(this).val();
+        var doc = "is_pan";
 
         // Make an AJAX request to the server
         $.ajax({
             url: '<?= base_url('EmployeeController/liveSearch') ?>',
             method: 'GET',
             data: {
-                query: query
+                query: query,
+                doc: doc
             },
             dataType: 'json',
             success: function(response) {

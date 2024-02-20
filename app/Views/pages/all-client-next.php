@@ -78,15 +78,12 @@
                         <!-- <a href="<?php echo base_url('verify') ?>"><i class="fa fa-gear"></i></a> -->
                         <a href="<?php echo base_url('ClientController/verify') . '/' . $clientRecord[0]['id']; ?>"><i class="fa fa-gear"></i></a>
                     </div>
-
                 </div>
-
                 <p></p>
-                <div class="btn-group mt-2 mb-2 dropright">
-                    <a type="button" class="btn btn-outline-default dropdown-toggle" href="<?php echo base_url('dashboard'); ?>">
+                <div class="btn-group mt-2 mb-2 dropright ">
+                    <a type="button" class="btn btn-secondary dropdown-toggle p-1 px-2 mx-3" href="<?php echo base_url('dashboard'); ?>">
                         View Dashboard <span class="caret"></span>
                     </a>
-
                 </div>
             </div>
 

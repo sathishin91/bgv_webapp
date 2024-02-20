@@ -39,6 +39,7 @@
     PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
     /* global Reflect, Promise */
+    
 
     var extendStatics = function(d, b) {
         extendStatics = Object.setPrototypeOf ||

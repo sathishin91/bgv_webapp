@@ -11,7 +11,7 @@ class VerificationModel extends Model
 
     protected $table = 'verification';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['client_id', 'doc_id', 'reinitiate', 'permission', 'days', 'created_at', 'updated_at']; // Fields that can be manipulated
+    protected $allowedFields = ['client_id', 'service_id', 'reinitiate', 'permission', 'exp_days', 'tags', 'tat_time', 'tat_days', 'created_at', 'updated_at']; // Fields that can be manipulated
 
     public function findClient($id)
     {

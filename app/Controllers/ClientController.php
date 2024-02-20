@@ -188,33 +188,27 @@ class ClientController extends BaseController
 
                     if ($res_emp) {
                         $data = ['status' => 1000];
-                        $msg = 'Employee Added Successfully.';
-                        session()->setFlashdata('success_msg',  $msg);
+                        // $msg = 'Employee Added Successfully.';
+                        // session()->setFlashdata('success_msg',  $msg);
                     } else {
                         $data = ['status' => 1001];
-                        $msg = 'Employee Not Found!';
-                        session()->setFlashdata('danger_msg',  $msg);
+                        // $msg = 'Employee Not Found!';
+                        // session()->setFlashdata('danger_msg',  $msg);
                     }
                 } else {
-                    $data = ['status' => 1001];
-                    $msg = 'Employee Not Added!';
-                    session()->setFlashdata('danger_msg',  $msg);
+                    $data = ['status' => 1002];
+                    // $msg = 'Employee Not Added!';
+                    // session()->setFlashdata('danger_msg',  $msg);
                 }
                 return $this->response->setJSON($data);
-
-                // Redirect or perform other actions as needed
-                // if ($res) {
-                //     $msg = 'Employee Added Successfully.';
-                //     session()->setFlashdata('success_msg',  $msg);
-                // }
-
-                // return redirect()->to('/all-client');
             } else {
                 // Email already exists, handle the duplicate case (e.g., show an error message)
-                $msg = 'Email already exists!';
-                session()->setFlashdata('error_msg',  $msg);
+                $data = ['status' => 1003];
+                // $msg = 'Email already exists!';
+                // session()->setFlashdata('error_msg',  $msg);
+                return $this->response->setJSON($data);
 
-                return redirect()->to('/all-client');
+                // return redirect()->to('/all-client');
             }
         }
         // } else {
@@ -316,30 +310,64 @@ class ClientController extends BaseController
     {
         $model = new VerificationModel();
         $myTime = new Time('now', 'Asia/Kolkata', 'en_US');
-
-        $id = $_POST['id'];
         // echo "<pre>";
-        print_r($_POST['details']);
-        die();
+        // print_r($_POST['details']);
+        // die();
 
-        // foreach ($_POST as $details) {
+        $dataArray = json_decode($_POST['details'], true);
+
+        foreach ($dataArray as $serviceData) {
+            // Ensure service_id is unique before inserting
+            $existingRecord = $model->find(array('service_id' => $serviceData['service_id'], 'client_id' => $_POST['id']));
+
+            $serviceData['client_id']  = $_POST['id'];
+            $serviceData['created_at'] = $myTime;
+            if (!$existingRecord) {
+                // Service_id is unique, insert the record
+                $res = $model->insert($serviceData);
+                if ($res) {
+                    $data = ['status' => 1000];
+                    $msg = 'Verified Successfully.';
+                    session()->setFlashdata('success_msg',  $msg);
+                } else {
+                    $data = ['status' => 1001];
+                    $msg = 'Not Verified Successfully!';
+                    session()->setFlashdata('danger_msg',  $msg);
+                }
+            } else {
+                // Service_id already exists, you may handle this case as needed
+                // For example, update the existing record or log an error
+                // In this example, we'll skip the insertion and log a message
+                echo "Service with ID {$serviceData['service_id']} already exists. Skipped insertion.<br>";
+            }
+        }
+
+        // } else {
+        //     $data = ['status' => 1001];
+        //     $msg = 'Employee Not Added!';
+        //     session()->setFlashdata('danger_msg',  $msg);
+        // }
+
+
+        // foreach ($_POST['details'] as $details) {
         //     $details     =   json_decode($details);
         //     // echo '<pre>';
         //     // print_r($details);
         //     // die();
         //     // // $days = $det->days;
-        //     foreach ($details as $detail) {
+        //     foreach ($details as $det) {
         //         $data = [
         //             'client_id' => $id,
-        //             'doc_id' => $detail->service_id,
-        //             'reinitiate' => ($detail->reinitiate) ? $detail->reinitiate : 0,
-        //             'permission' => ($detail->permission) ? $detail->permission : 1,
-        //             'days' => $detail->days,
-        //             'created_at' => $myTime
+        //             // 'service_id' => $det->service_id,
+        //             // 'reinitiate' => ($det->reinitiate) ? $det->reinitiate : 0,
+        //             // 'permission' => ($det->permission) ? $det->permission : 1,
+        //             // 'exp_days' => $det->days,
+        //             // 'created_at' => $myTime
         //         ];
         //         $res =  $model->insert($data);
         //     }
         // }
+        return $this->response->setJSON($data);
         // return redirect()->to('/all-client');
     }
 }
