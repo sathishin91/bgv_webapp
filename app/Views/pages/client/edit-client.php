@@ -6,6 +6,11 @@
 <?= $this->endSection('styles'); ?>
 
 <?= $this->section('content'); ?>
+<?php
+// echo "<pre>";
+// print_r($clientRecord);
+// die();
+?>
 
 <!-- PAGE-HEADER -->
 <div class="page-header">
@@ -112,11 +117,11 @@
                                                 <p>
                                                     Worked as Professor and Head of the department at Sarda Collage, Rajkot, Gujarat from 2003-2015
                                                 </p>
-                                                <p>
+                                                <!-- <p>
                                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                                                </p>
+                                                </p> -->
 
-                                                <ul class="list-group list-group-flush">
+                                                <!-- <ul class="list-group list-group-flush">
                                                     <li class="nav-header disabled"><b>Education</b></li>
                                                     <li class="list-group-item">
                                                         Cras justo odio
@@ -127,7 +132,7 @@
                                                     <li class="list-group-item">
                                                         Morbi leo risus
                                                     </li>
-                                                </ul>
+                                                </ul> -->
                                             </div>
                                         </div>
                                     </div>
@@ -142,25 +147,24 @@
                                             <h3>Update Client</h3>
                                         </div>
                                         <div class="card-body">
-                                            <form class="validate-form" method="post" action="<?php echo base_url('ClientController/editClient') ?>">
-                                                <input type="hidden" id="id" name="id" value="<?= $clientRecord[0]['id'] ?>">
+                                            <!-- <form class="validate-form" method="post" action="<?php echo base_url('ClientController/editClient') ?>"> -->
+                                            <form class="validate-form" id="validate-form" method="post" action="#">
+                                                <input type="hidden" id="id" name="id" value="<?= $clientRecord[0]['id'] ?>" class="id">
                                                 <div class="row ">
                                                     <div class="col-md-12 col-lg-6">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="search-box">Organisation name</label>
+                                                            <label class="form-label" for="search-box">Organisation name<span class="text-danger"> *</span><span id="error_name" class="text-danger"></span></label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="name" name="name" placeholder="organisation name" value="<?= $clientRecord[0]['name'] ?>">
-                                                                <!-- <button class="input-group-text btn btn-primary text-white">Go!</button> -->
+                                                                <input type="text" class="form-control name" id="name" name="name" placeholder="organisation name" value="<?= $clientRecord[0]['name'] ?>">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-lg-6">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="basic-addon6">Contact person</label>
+                                                            <label class="form-label" for="basic-addon6">Contact person<span class="text-danger"> *</span><span id="error_cp" class="text-danger"></span></label>
                                                             <div class="input-group">
-
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control" id="contact_person" name="contact_person" placeholder="contact person" value="<?= $clientRecord[0]['contact_person'] ?>">
+                                                                    <input type="text" class="form-control contact_person" id="contact_person" name="contact_person" placeholder="contact person" value="<?= $clientRecord[0]['contact_person'] ?>">
 
                                                                 </div>
                                                             </div>
@@ -168,12 +172,10 @@
                                                     </div>
                                                     <div class="col-md-12 col-lg-6">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="separated-input">Additional address</label>
+                                                            <label class="form-label" for="separated-input">Additional address<span class="text-danger"> *</span><span id="error_aa" class="text-danger"></span></label>
                                                             <div class="row ">
-
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control" id="add_address" name="add_address" placeholder="address" value="">
-                                                                    <!-- <button class="input-group-text btn btn-primary text-white">Go!</button> -->
+                                                                    <input type="text" class="form-control add_address" id="add_address" name="add_address" placeholder="address" value="<?= $clientRecord[0]['add_address'] ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -182,35 +184,30 @@
                                                         <div class="form-group">
                                                             <label class="form-label" for="basic-addon4">Documents</label>
                                                             <div class="input-group">
-
-                                                                <input type="file" class="form-control" id="documents" name="documents" placeholder="Search for..." value="<?= $clientRecord[0]['documents'] ?>">
-                                                                <!-- <button class="input-group-text btn btn-primary text-white">Go!</button> -->
+                                                                <input type="file" class="form-control documents" id="documents" name="documents" placeholder="Search for..." value="<?= $clientRecord[0]['documents'] ?>">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-lg-6">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="basic-addon5">Location and sites</label>
+                                                            <label class="form-label" for="basic-addon5">Location and sites<span class="text-danger"> *</span><span id="error_location" class="text-danger"></span></label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="location" name="location" placeholder="location" value="<?= $clientRecord[0]['location'] ?>">
-                                                                <!-- <button class="input-group-text btn btn-primary text-white">Go!</button> -->
+                                                                <input type="text" class="form-control location" id="location" name="location" placeholder="location" value="<?= $clientRecord[0]['location'] ?>">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-lg-6">
                                                         <div class="form-group">
-                                                            <label class="form-label" for="basic-addon">Functions and roles</label>
+                                                            <label class="form-label" for="basic-addon">Functions and roles<span class="text-danger"> *</span><span id="error_role" class="text-danger"></span></label>
                                                             <div class="input-group mb-3">
-                                                                <input type="role" class="form-control" id="role" name="role" placeholder="role" value="<?= $clientRecord[0]['role'] ?>">
-                                                                <!-- <button class="input-group-text btn btn-primary text-white">Go!</button> -->
+                                                                <input type="role" class="form-control role" id="role" name="role" placeholder="role" value="<?= $clientRecord[0]['role'] ?>">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-lg-6">
                                                         <div class="form-group">
                                                             <div class="input-group mb-3">
-                                                                <input class="btn btn-primary" type="submit" value="Update">
-                                                                <!-- <button class="input-group-text btn btn-primary text-white">Go!</button> -->
+                                                                <input class="btn btn-primary ajaxUpdate" type="submit" value="Update">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -219,9 +216,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -229,10 +224,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <!-- END ROW -->
 
@@ -242,5 +233,61 @@
 
 <!-- COLOR THEME JS -->
 <script src="<?php echo base_url('assets/js/themeColors.js'); ?>"></script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.ajaxUpdate', function() {
+            $('#validate-form').submit(function(event) {
+                event.preventDefault();
+
+                var data = {
+                    'id': $('.id').val(),
+                    'name': $('.name').val(),
+                    'contact_person': $('.contact_person').val(),
+                    'add_address': $('.add_address').val(),
+                    'location': $('.location').val(),
+                    'role': $('.role').val(),
+                    'description': $('.description').val(),
+                    // 'document': $('.document')[0].files[0],
+                }
+
+                $.ajax({
+                    method: 'post',
+                    url: '<?php echo base_url('ClientController/addClient') ?>',
+                    data: data,
+                    success: function(response) {
+                        if (response.status == "1000" && response.status != '') {
+                            // $('#validate-form :input').val('');
+                            $.toast({
+                                heading: "Success",
+                                // text: result.msg,
+                                text: "Client Updated Succesfully.",
+                                position: "top-right",
+                                loaderBg: "#5ba035",
+                                icon: "success"
+                            });
+                            // setTimeout(function() {
+                            //     location.reload();
+                            // }, 3000);
+
+                        } else if (response.status == "1001" && response.status != '') {
+                            $.toast({
+                                heading: "Error",
+                                text: "Client Not Found.",
+                                position: "top-right",
+                                loaderBg: "#5ba035",
+                                icon: "error"
+                            });
+                        }
+                    }
+
+                });
+
+                // }
+            });
+        });
+
+    });
+</script>
 
 <?= $this->endSection('scripts'); ?>

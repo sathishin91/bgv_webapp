@@ -9,7 +9,7 @@ class Pages extends BaseController
 
     public function addClient()
     {
-        return view('pages/add-client');
+        return view('pages/client/add-client');
     }
     public function detailView()
     {

@@ -8,12 +8,22 @@
         /* cursor: pointer; */
         background-color: #1722a6;
     }
+
+    #firstTable :hover {
+        color: white;
+        /* cursor: pointer; */
+        background-color: #1722a6;
+    }
 </style>
 
 <?= $this->endSection('styles'); ?>
 
 <?= $this->section('content'); ?>
-
+<?php
+// echo '<pre>';
+// print_r($firstClientData);
+// die();
+?>
 <!-- PAGE-HEADER -->
 <div class="page-header">
     <div>
@@ -31,7 +41,7 @@
 
     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
         <select id="filter" name="filter" class="form-select" style="font-size: 14px;">
-            <option value="">--select client--</option>
+            <!-- <option value="">--select client--</option> -->
             <?php foreach ($dropdown_data as $row) : ?>
                 <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
             <?php endforeach; ?>
@@ -47,8 +57,15 @@
         </select>
     </div> -->
     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <!-- <div class="input-group">
+            <input class="form-control" placeholder="search by candidate name" type="search" data-search id="searchInput">
+            <span class="input-group-text bg-white"><i class="icon icon-magnifier"></i></span> -->
+        <!-- <p class="text-gray text-medium m-2">search by candidate name</p> -->
+        <!-- </div> -->
         <div class="input-group">
             <input class="form-control" placeholder="Search by employee name" type="search" data-search id="searchInput" style="font-size: 14px;">
+            <span class="input-group-text bg-white"><i class="icon icon-magnifier"></i></span>
+
         </div>
     </div>
 
@@ -65,6 +82,28 @@
             <div class="card-body scroll">
                 <!-- content -->
                 <div class="content vscroll h-300">
+                    <ol class="list-group list-group-numbered" id="firstTable">
+                        <?php
+                        if (!empty($firstClientData)) :
+                            foreach ($firstClientData as $data) :
+                                $fullname = $data['first_name'] . ' ' . $data['last_name'];
+                        ?>
+                                <a href="javascript:void(0)" data-employee-id="<?= $data['id'] ?>" id="tab" onclick=getData(<?= $data['id'] ?>)>
+                                    <li class="list-group-item d-flex justify-content-between align-items-start tab">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold"><?= $fullname ?></div>
+                                            <div><?= $data['name'] ?></div>
+                                        </div>
+                                    </li>
+                                </a>
+                            <?php endforeach;
+                        else :
+                            ?>
+                            <tr>
+                                <td colspan="7" align="center">No employee found</td>
+                            </tr>
+                        <?php endif; ?>
+                    </ol>
                     <ol class="list-group list-group-numbered" id="userTable">
                     </ol>
                 </div>
@@ -134,26 +173,28 @@
             // Prevent the default form submission
             event.preventDefault();
             var formData = $(this).serialize();
-
-            // Perform your Ajax logic here
+            // Perform your Ajax logic here 
             $.ajax({
                 method: 'POST',
                 url: 'EmployeeController/updateDelCheck',
-                data: formData, // Serialize the form data
+                data: formData,
+                // Serialize the form data 
                 success: function(response) {
-                    // Handle the Ajax response
-                    console.log(response);
+                    // Handle the Ajax response 
+                    // console.log(response); 
                     $.toast({
                         heading: "Success",
-                        // text: result.msg,
+                        // text: result.msg, 
                         text: "Deleted Succesfully.",
                         position: "top-right",
                         loaderBg: "#5ba035",
                         icon: "success"
                     });
+                    // resetTabContent('#tab25'); 
+                    getData(2);
                 },
                 error: function(xhr, status, error) {
-                    // Handle Ajax errors if needed
+                    // Handle Ajax errors if needed 
                     $.toast({
                         heading: "Error",
                         text: "Not Deleted Succesfully!",
@@ -187,10 +228,10 @@
                     // console.log(item)
                     var fullName = item.first_name + ' ' + item.last_name;
 
-                    tableHtml += '<a href="javascript:void(0)" data-employee-id="' + item.id + '" id="tab" onclick=getData(' + item.id + ')> <li class="list-group-item d-flex justify-content-between align-items-start tab"><div class="ms-2 me-auto"><div class="fw-bold">' + fullName + '</div><div>' + item.name + '</div></li></a>';
+                    tableHtml += '<a href="javascript:void(0)" data-employee-id="' + item.id + '" id="tab" onclick=getData(' + item.id + ')> <li class="list-group-item d-flex justify-content-between align-items-start tab"><div class="ms-2 me-auto"><div class="fw-bold">' + fullName + '</div><div>' + item.name + '</div></div></li></a>';
                 });
+                $('#firstTable').html(tableHtml).hide();
                 $('#userTable').html(tableHtml);
-
             }
         });
     });
@@ -198,7 +239,6 @@
 <script>
     function getData(id) {
         var employeeId = id
-
         // Make an AJAX request to retrieve employee data
         $.ajax({
             url: '<?= base_url('EmployeeController/getEmployeeDelCheck') ?>', // Replace with your actual server endpoint
@@ -213,7 +253,6 @@
                 $.each(response.data, function(index, item) {
                     if (item.is_pan == 1) {
                         tabHtml += '<label class="ckbox" for="pan"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="pan" class ="pan" name="pan" value="2"><span>PAN CARD</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
-
                         // tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"> <input type="checkbox" class ="pan mt-2" name = "pan"> <span style = "font-size: 16px;"> PAN CARD </span><h6>' + item.created_at + '</h6></div>';
                     }
                     if (item.is_aadhar == 1) {
@@ -229,7 +268,6 @@
                         // tabHtml += '<div><input name="id" type="hidden" value="' + item.id + '"><input type="checkbox" class="license mt-2" name="license"><span style="font-size: 16px;">LICENSE CARD</span><h6>' + item.created_at + '</h6></div>'; tabHtml += '<label class="ckbox" for="voter_id"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="voter_id" class="voter_id" name="voter_id"><span>VOTER ID</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
                         tabHtml += '<label class="ckbox" for="license"><input name="id" type="hidden" value="' + item.id + '"><input type= "checkbox" id="license" class="license" name="license" value="2"><span>DRIVING LICENSE</span></label><p>' + item.created_at + '<i class="mdi mdi-approval text-success" style="margin-left:5px;"></i></p>';
                     }
-
                 });
                 $('#tab25').html(tabHtml);
                 // $('#employeeDetails').html(employeeName);
@@ -270,8 +308,9 @@
                     // console.log(item)
                     var fullName = item.first_name + ' ' + item.last_name;
 
-                    tableHtml += '<a href="javascript:void(0)" data-employee-id="' + item.id + '" id="tab" onclick=getData(' + item.id + ')> <li class="list-group-item d-flex justify-content-between align-items-start tab"><div class="ms-2 me-auto"><div class="fw-bold">' + fullName + '</div><div>' + item.name + '</div></li></a>';
+                    tableHtml += '<a href="javascript:void(0)" data-employee-id="' + item.id + '" id="tab" onclick=getData(' + item.id + ')> <li class="list-group-item d-flex justify-content-between align-items-start tab"><div class="ms-2 me-auto"><div class="fw-bold">' + fullName + '</div><div>' + item.name + '</div></div></li></a>';
                 });
+                $('#firstTable').html(tableHtml).hide();
                 $('#userTable').html(tableHtml);
             }
         });

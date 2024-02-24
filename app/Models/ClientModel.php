@@ -31,7 +31,7 @@ class ClientModel extends Model
 
     protected $table = 'client';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['user_id', 'name', 'description', 'contact_person', 'location', 'role', 'documents', 'is_starred', 'created_at', 'updated_at', 'deleted_at']; // Fields that can be manipulated
+    protected $allowedFields = ['user_id', 'name', 'description', 'contact_person', 'location', 'add_address', 'role', 'documents', 'is_starred', 'created_at', 'updated_at', 'deleted_at']; // Fields that can be manipulated
 
     public function getStarredRecords()
     {
@@ -54,4 +54,8 @@ class ClientModel extends Model
 
     //     return $result === 0; // Returns true if email is unique, false if it already exists
     // }
+    public function firstRow()
+    {
+        return $this->get()->getFirstRow();
+    }
 }

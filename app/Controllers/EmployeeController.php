@@ -16,7 +16,7 @@ class EmployeeController extends BaseController
         $data['user_id'] = $id;
 
 
-        return view('pages/all-employee', $data);
+        return view('pages/employee/all-employee', $data);
     }
 
     public function todoIndex()
@@ -373,11 +373,14 @@ class EmployeeController extends BaseController
         $model = new EmployeeModel();
 
         $data['dropdown_data'] = $clientModel->getDropdownData();
+        $firstRowId = $clientModel->firstRow();
+        $data['firstClientData'] = $model->firstClientData($firstRowId->id);
+
         // $data['records'] = $model->panData();
 
         // return view('your_view', $data);
 
-        return view('pages/del-check', $data);
+        return view('pages/employee/del-check', $data);
     }
 
     public function filterDataDelCheck()
@@ -406,13 +409,9 @@ class EmployeeController extends BaseController
     public function updateDelCheck()
     {
 
-        // print_r($_POST);
-        // die();
         $model = new EmployeeModel();
         $id = $this->request->getPost('id');
         $getData =  $model->find($id);
-        // print_r($getData['is_pan']);
-        // die();
 
         if ($this->request->getPost('pan')) {
             $pan = $this->request->getPost('pan');

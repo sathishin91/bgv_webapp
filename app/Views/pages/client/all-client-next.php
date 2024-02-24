@@ -43,8 +43,6 @@
                     Add Employee <span class="caret"></span>
                 </a>
             </div>
-
-
             <div class="btn-group mt-2 mb-2 dropright">
                 <a type="button" class="btn btn-primary dropdown-toggle p-2 w-100" href="<?php echo base_url('EmployeeController/index') . '/' . $clientRecord[0]['id']; ?>">
                     All Employee <span class="caret"></span>

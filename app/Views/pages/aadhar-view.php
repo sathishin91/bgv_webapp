@@ -61,7 +61,10 @@
         </div>
     </div> -->
     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 mb-4">
-        <input class="form-control" placeholder="Search by name" type="search" data-search id="searchInput">
+        <div class="input-group">
+            <input class="form-control" placeholder="search by candidate name" type="search" data-search id="searchInput">
+            <span class="input-group-text bg-white"><i class="icon icon-magnifier"></i></span>
+        </div>
 
         <!-- <button class="btn">
             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
@@ -76,7 +79,7 @@
         </div> -->
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-        <p class="text-gray text-medium ">search by candidate name</p>
+        <!-- <p class="text-gray text-medium ">search by candidate name</p> -->
 
     </div>
     <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1">

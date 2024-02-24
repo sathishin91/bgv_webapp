@@ -218,4 +218,20 @@ class EmployeeModel extends Model
         // Get the result
         return $this->findAll();
     }
+
+    public  function firstClientData($firstRowId)
+    {
+        // return $this->where('user_id', $filter)->findAll();
+        // Select columns from both tables
+        $this->select('employee.*, client.name');
+
+        // Specify the main table (posts) and the join table (users)
+        $this->join('client', 'client.id = employee.user_id', 'left');
+
+        // WHERE condition on the user ID
+        $this->where('employee.user_id', $firstRowId);
+
+        // Get the result
+        return $this->find();
+    }
 }

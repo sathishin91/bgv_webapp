@@ -23,7 +23,11 @@
     </div>
 </div>
 <!-- PAGE-HEADER END -->
-
+<?php
+// echo '<pre>';
+// print_r($records);
+// die();
+?>
 
 <!-- TABS OPEN -->
 <div class="row">
@@ -38,7 +42,7 @@
                         <div class="tabs-menu4 border-bottomo-sm">
                             <!-- Tabs -->
                             <nav class="nav d-sm-flex d-block">
-                                <a class="nav-link border border-bottom-0 br-sm-5 me-2 active" data-bs-toggle="tab" href="#tab25">
+                                <a class="nav-link border border-bottom-0 br-sm-5 me-2 active" data-bs-toggle="tab" href="#tab25" id="tab">
                                     Starred
                                 </a>
                                 <a class="nav-link border border-bottom-0 br-sm-5 me-2" data-bs-toggle="tab" href="#tab26">
@@ -82,9 +86,16 @@
                                                         </div>
                                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 right-grid-spacing">
                                                             <button href="#" class="star-toggle" data-id="<?= $record['id']; ?>">
-                                                                <i class="fa fa-star star" style="color:white;
+                                                                <?php if ($record['is_starred'] == 1) {
+                                                                ?>
+                                                                    <i class="fa fa-star star" style="color:white;  "></i>
+                                                                    <i class="fa fa-star-o unstar" style="color:white;display:none;"></i>
+                                                                <?php } else { ?>
+                                                                    <i class="fa fa-star star" style="color:white;
                                                             display:none;"></i>
-                                                                <i class="fa fa-star-o unstar" style="color:white"></i>
+                                                                    <i class="fa fa-star-o unstar" style="color:white"></i>
+                                                                <?php } ?>
+
                                                                 <!-- <span class="star">&#9733;</span> -->
                                                                 <!-- Star symbol -->
                                                                 <!-- <span class="unstar">&#9734;</span> -->
@@ -133,7 +144,17 @@
 
 <!-- COLOR THEME JS -->
 <script src="<?php echo base_url('assets/js/themeColors.js'); ?>"></script>
-
+<script>
+    $(document).ready(function() {
+        // Add a click event handler to the tab link
+        $('#tab').on('click', function(e) {
+            // Prevent the default link behavior
+            e.preventDefault();
+            // Reload the page
+            location.reload();
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const starButtons = document.querySelectorAll('.star-toggle');

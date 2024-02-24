@@ -23,7 +23,7 @@ class ClientController extends BaseController
         $data['records'] = $model->findAll();
         $data['starredRecords'] = $model->getStarredRecords();
 
-        return view('pages/all-client', $data);
+        return view('pages/client/all-client', $data);
     }
 
     public function index2()
@@ -33,7 +33,7 @@ class ClientController extends BaseController
         $model = new ClientModel();
         $data['clientRecord'] = $model->getClientById($id);
 
-        return view('pages/all-client-next', $data);
+        return view('pages/client/all-client-next', $data);
     }
 
     public function index3()
@@ -43,7 +43,7 @@ class ClientController extends BaseController
         $model = new ClientModel();
         $data['clientRecord'] = $model->getClientById($id);
 
-        return view('pages/edit-client', $data);
+        return view('pages/client/edit-client', $data);
     }
 
     public function addEmployeeId()
@@ -53,7 +53,7 @@ class ClientController extends BaseController
         $model = new ClientModel();
         $data['clientRecord'] = $model->getClientById($id);
 
-        return view('pages/add-employee', $data);
+        return view('pages/employee/add-employee', $data);
     }
 
     public function verify()
@@ -123,8 +123,6 @@ class ClientController extends BaseController
             }
             return redirect()->to('/all-employee');
         } else {
-            // print_r($_POST);
-            // die();
 
             $email = $this->request->getPost('email');
 
@@ -222,7 +220,6 @@ class ClientController extends BaseController
 
     public function addClient()
     {
-
         $model = new ClientModel();
         $id = $this->request->getPost('id');
         $myTime = new Time('now', 'Asia/Kolkata', 'en_US');
@@ -233,45 +230,44 @@ class ClientController extends BaseController
 
             if (empty($existingData)) {
                 // Handle the case where the record with the given ID is not found
-                $msg = 'No record found.';
-                session()->setFlashdata('error_msg',  $msg);
-                // return redirect()->to('/ClientController/index3');
+                $data = ['status' => 1001];
+                return $this->response->setJSON($data);
             }
 
             $updatedData = [
-                'id' => $id,
                 'name' => $this->request->getPost('name'),
                 'contact_person' => $this->request->getPost('contact_person'),
+                'add_address' => $this->request->getPost('add_address'),
                 'location' => $this->request->getPost('location'),
-                // 'add_address' => $this->request->getPost('add_address'),
-                // 'documents' => $this->request->getPost('documents'),
                 'role' => $this->request->getPost('role'),
+                // 'documents' => $this->request->getPost('documents'),
                 'updated_at' => $myTime
             ];
+            // print_r($updatedData);
+            // die();
 
             // Update the data
             $res = $model->update($id, $updatedData);
 
             // Redirect or perform other actions as needed
             if ($res) {
-                $msg = 'Client Updated Successfully.';
-                session()->setFlashdata('success_msg',  $msg);
+                $data = ['status' => 1000];
+                return $this->response->setJSON($data);
             }
             // return redirect()->to('ClientController/index3');
 
             $data['clientRecord'] = $model->getClientById($id);
             return view('pages/edit-client', $data);
         } else {
-
             // Email is unique, proceed with saving data
             $data = [
                 'name' => $this->request->getPost('name'),
                 'contact_person' => $this->request->getPost('contact_person'),
+                'add_address' => $this->request->getPost('add_address'),
                 'location' => $this->request->getPost('location'),
-                'description' => $this->request->getPost('description'),
-                // 'add_address' => $this->request->getPost('add_address'),
-                // 'documents' => $this->request->getPost('documents'),
                 'role' => $this->request->getPost('role'),
+                'description' => $this->request->getPost('description'),
+                // 'documents' => $this->request->getPost('documents'),
                 'created_at' => $myTime
             ];
 
@@ -279,10 +275,15 @@ class ClientController extends BaseController
 
             // Redirect or perform other actions as needed
             if ($res) {
-                $msg = 'Client Added Successfully.';
-                session()->setFlashdata('success_msg',  $msg);
+                // $msg = 'Client Added Successfully.';
+                // session()->setFlashdata('success_msg',  $msg);
+                $data = ['status' => 1000];
+                return $this->response->setJSON($data);
+            } else {
+                $data = ['status' => 1001];
+                return $this->response->setJSON($data);
             }
-            return redirect()->to('/add-client');
+            // return redirect()->to('/add-client');
         }
     }
 

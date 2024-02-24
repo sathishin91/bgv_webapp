@@ -2,7 +2,7 @@
 					<div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
 					<div class="app-sidebar">
 						<div class="side-header">
-							<a class="header-brand1" href="<?php echo base_url('index'); ?>">
+							<a class="header-brand1" href="#">
 								<img src="<?php echo base_url('assets/images/brand/logo-4.png'); ?>" class="header-brand-img light-logo1" alt="logo" style="height: 50px;">
 							</a><!-- LOGO -->
 						</div>
